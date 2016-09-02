@@ -1,0 +1,45 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>analyser</title>
+  <script type="text/javascript" charset="utf-8">
+    function handleFileSelect(evt) {
+      var textarea = document.getElementById("textarea");
+      textarea.innerHTML = "";
+
+      var files = evt.target.files;
+      file = files[0];
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var text = e.target.result;
+        var tarr = text.split("\n");
+        var arrLength = tarr.length;
+        for (var i in tarr) {
+          var div = document.createElement("div");
+          div.id = "textline";
+          div.textContent = tarr[i];
+          textarea.appendChild(div);
+        }
+      };
+
+      reader.readAsText(file, "utf-8");
+    }
+
+    window.onload = function() {
+      document.getElementById("files").addEventListener('change',
+          handleFileSelect, false);
+    }
+  </script>
+  <style type="text/css" media="screen">
+    #textarea {
+      overflow-y: scroll;
+      height: 480px;
+      width: 640px;
+    }
+  </style>
+</head>
+<body>
+  <input type="file" name="files" id="files" single></br>
+  <div id="textarea"></div>
+</body>
+</html>
