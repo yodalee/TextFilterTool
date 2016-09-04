@@ -3,28 +3,32 @@
   <meta charset="utf-8">
   <title>analyser</title>
   <script type="text/javascript" charset="utf-8">
-    function handleFileSelect(evt) {
+    function renderText() {
       var textarea = document.getElementById("textarea");
       textarea.innerHTML = "";
+      var arrLength = tarr.length;
+      for (var i in tarr) {
+        var div = document.createElement("div");
+        div.id = "textline";
+        div.textContent = tarr[i];
+        textarea.appendChild(div);
+      }
+    }
+    function handleFileSelect(evt) {
 
       var files = evt.target.files;
       file = files[0];
       var reader = new FileReader();
       reader.onload = function(e) {
         var text = e.target.result;
-        var tarr = text.split("\n");
-        var arrLength = tarr.length;
-        for (var i in tarr) {
-          var div = document.createElement("div");
-          div.id = "textline";
-          div.textContent = tarr[i];
-          textarea.appendChild(div);
-        }
+        tarr = text.split("\n");
+        renderText();
       };
 
       reader.readAsText(file, "utf-8");
     }
 
+    var tarr = [];
     window.onload = function() {
       document.getElementById("files").addEventListener('change',
           handleFileSelect, false);
