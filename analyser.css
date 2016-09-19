@@ -1,0 +1,19 @@
+#textarea {
+  overflow-y: scroll;
+  height: 480px;
+  width: 640px;
+}
+#filterarea {
+  overflow-y: scroll;
+  width: 640px;
+  height: 50px;
+}
+#filteradd {
+  width: 640px;
+}
+.region {
+  outline: #000000 solid 2px;
+  padding: 10px;
+  margin: 10px;
+}
+
