@@ -1,6 +1,28 @@
 var tarr = [];
 var tfilter = [];
-var tColor = new Array("rgb(255,255,255)", "rgb(0,0,0)");
+var tColor = new Array(
+  "lightblue",
+  "lightcoral",
+  "lightcyan",
+  "lightgoldenrodyellow",
+  "lightgreen",
+  "lightpink",
+  "lightsalmon",
+  "lightseagreen",
+  "lightskyblue",
+  "lightslateblue",
+  "lightslategray",
+  "lightsteelbule",
+  "lightyellow");
+
+function fillColorSelect() {
+  var select = document.getElementById("filtercolor");
+  for (var i in tColor) {
+    var option = document.createElement("option");
+    option.text = tColor[i];
+    select.add(option);
+  }
+}
 
 function Filter(filtertext, fgcolor, bgcolor) {
   this.filtertext = filtertext;
@@ -16,7 +38,7 @@ function Filter(filtertext, fgcolor, bgcolor) {
       var endpos = startpos + filtertext.length;
       text = [
         text.slice(0, startpos),
-        "<span style=\"color:", tColor[fgcolor], "\">",
+        "<span style=\"background-color:", tColor[bgcolor], "\">",
         text.slice(startpos, endpos),
         "</span>",
         text.slice(endpos)].join('');
@@ -28,12 +50,13 @@ function Filter(filtertext, fgcolor, bgcolor) {
 
 function addFilter() {
   var filterarea = document.getElementById("filtertext");
+  var bgId = document.getElementById("filtercolor").selectedIndex;
   var filtertext = filterarea.value;
   filterarea.value = "";
   if (filtertext.length == 0) {
     return;
   }
-  tfilter.push(new Filter(filtertext, 0, 1));
+  tfilter.push(new Filter(filtertext, 0, bgId));
   renderFilter();
   renderText();
 }
@@ -82,6 +105,7 @@ function handleFileSelect(evt) {
 }
 
 window.onload = function() {
+  fillColorSelect();
   document.getElementById("files").addEventListener('change',
       handleFileSelect, false);
 }
