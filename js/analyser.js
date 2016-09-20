@@ -34,17 +34,7 @@ function Filter(filtertext, fgcolor, bgcolor) {
     if (startpos == -1) {
       return null;
     }
-    while (startpos != -1) {
-      var endpos = startpos + filtertext.length;
-      text = [
-        text.slice(0, startpos),
-        "<span style=\"background-color:", tColor[bgcolor], "\">",
-        text.slice(startpos, endpos),
-        "</span>",
-        text.slice(endpos)].join('');
-      startpos = text.lastIndexOf(filtertext, startpos);
-    }
-    return text;
+    return ["<span style=\"background-color:", tColor[bgcolor], "\">", text, "</span>"].join('');
   }
 }
 
