@@ -1,3 +1,4 @@
+var showFiltered = false;
 var tarr = [];
 var tfilter = [];
 var tColor = new Array(
@@ -28,6 +29,8 @@ function Filter(filtertext, fgcolor, bgcolor) {
   this.filtertext = filtertext;
   this.fgcolor = fgcolor;
   this.bgcolor = bgcolor;
+  this.matched = 0;
+  matched = 0;
   this.filterfun = function(text) {
     //add tag reversely, so that startpos won't be modified by the added tag
     var startpos = text.lastIndexOf(filtertext);
@@ -65,14 +68,30 @@ function renderFilter() {
 function renderText() {
   var textarea = document.getElementById("textarea");
   textarea.innerHTML = "";
-  for (var i in tarr) {
-    // pass each text over filter
-    var textContent = tarr[i];
-    for (var j=tfilter.length-1; j>=0; j--) {
-      var textFiltered = tfilter[j].filterfun(textContent);
-      if (textFiltered != null) {
-        textContent = textFiltered;
+
+  if (tfilter.length == 0) {
+    // no filter, directly render
+    for (var i in tarr) {
+      var div = document.createElement("div");
+      div.id = "textline";
+      div.innerHTML = tarr[i];
+      textarea.appendChild(div);
+    }
+  } else {
+    // has filter, pass each line to filter
+    for (var i in tarr) {
+      // pass each text over filter
+      var textContent = null;
+      for (var j in tfilter) {
+        var textFiltered = tfilter[j].filterfun(tarr[i]);
+        if (textFiltered != null) {
+          textContent = textFiltered;
+          break;
+        }
       }
+    }
+    if (!textFiltered && textContent == null) {
+      textContent = tarr[i];
     }
     var div = document.createElement("div");
     div.id = "textline";
@@ -92,6 +111,11 @@ function handleFileSelect(evt) {
   };
 
   reader.readAsText(file, "utf-8");
+}
+
+function checkShowFiltered() {
+  showFiltered = document.getElementById("showFiltered").checked;
+  renderText();
 }
 
 window.onload = function() {
